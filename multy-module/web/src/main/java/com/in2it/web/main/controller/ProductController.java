@@ -3,6 +3,7 @@ package com.in2it.web.main.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,22 +34,32 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public List<Product> getAllProducts() {
+	public ResponseEntity<List<Product>> getAllProducts() {
 		
-		return service.getAllProducts();
+//		return service.getAllProducts();
+		return ResponseEntity.status(HttpStatus.FOUND).body(service.getAllProducts());
 	}
 	
+	
+//	@GetMapping("/customer/{id}")
+//	public ResponseEntity<List<Product>> getProductsByCustomerId(@PathVariable int id) {
+//		
+////		return service.getProductsByCustomerId(id);
+//		return ResponseEntity.status(HttpStatus.FOUND).body(service.getProductsByCustomerId(id));
+//	}
 	
 	@GetMapping("/customer/{id}")
 	public List<Product> getProductsByCustomerId(@PathVariable int id) {
 		
 		return service.getProductsByCustomerId(id);
+		
 	}
 	
 	@GetMapping("/{id}")
-	public Product getProductById(@PathVariable int id) {
+	public ResponseEntity<Product> getProductById(@PathVariable int id) {
 		
-		return service.getProductById(id);
+//		return service.getProductById(id);
+		return ResponseEntity.status(HttpStatus.FOUND).body(service.getProductById(id));
 	}
 
 

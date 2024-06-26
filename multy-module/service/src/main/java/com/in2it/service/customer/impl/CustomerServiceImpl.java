@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 import com.in2it.client.product.ProductClient;
 import com.in2it.core.entity.Customer;
 import com.in2it.core.entity.Product;
+import com.in2it.exception.ResourceNotFoundException;
 import com.in2it.repository.customer.CustomerRepository;
 import com.in2it.service.customer.CustomerService;
-
-import ch.qos.logback.core.net.server.Client;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -32,6 +31,8 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<Customer> getAllCustomers() {
 		List<Customer> customers = repository.findAll();
 		for (Customer customer : customers) {
+			System.out.println(productClient.getProductsByCustomerId(customer.getId()));
+//			customer.setProducts(productClient.getProductsByCustomerId(customer.getId()).getBody());
 			customer.setProducts(productClient.getProductsByCustomerId(customer.getId()));
 		}
 
@@ -40,8 +41,9 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer getCustomerById(int id) {
+//		List<Product> products = productClient.getProductsByCustomerId(id).getBody();
 		List<Product> products = productClient.getProductsByCustomerId(id);
-		Customer customer = repository.findById(id).get();
+		Customer customer = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer dosen't exist with given id please give an valid id"));
 		if(products.size()!=0) {
 			customer.setProducts(products);
 		}
@@ -50,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer updateCustomer(int id,Customer customer) {
-		Customer exstCustomer = repository.findById(id).get();
+		Customer exstCustomer = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer dosen't exist with given id please give an valid id"));
 		
 		if(exstCustomer!=null) {
 			exstCustomer.setEmail(customer.getEmail());
@@ -78,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Customer deleteCustomer(int id) {
-		Customer exstCustomer = repository.findById(id).get();
+		Customer exstCustomer = repository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Customer dosen't exist with given id please give an valid id"));
 		if(exstCustomer!=null) {
 			repository.delete(exstCustomer);
 			return exstCustomer;

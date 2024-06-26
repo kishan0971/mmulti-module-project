@@ -3,6 +3,8 @@ package com.in2it.client.product;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,4 +38,8 @@ public interface ProductClient {
 	
 	@PatchMapping
 	public Product updateProductWithPatch(@RequestBody Product product);
+	
+//	@GetMapping("/customer/{id}")
+//	public ResponseEntity<List<Product>> getProductsByCustomerId(@PathVariable int id);
+//	
 }

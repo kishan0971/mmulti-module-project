@@ -46,12 +46,14 @@
 
 
 	<modules>
+		<module>exception</module>
 		<module>core</module>
 		<module>repository</module>
 		<module>service</module>
 		<module>web</module>
-		<module>client</module>
 		<module>server-reggistry</module>
 		<module>demo</module>
+		<module>client</module>
+		
 	</modules>
 </project>

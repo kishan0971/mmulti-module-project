@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,33 +32,39 @@ public class CustomerController {
 	CustomerService service;
 
 	@PostMapping
-	public Customer registerCustomer(@RequestBody Customer customer) {
+	public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) {
 //		ResponseEntity.status(HttpStatus.CREATED).body(null);
-		return service.registerCustomer(customer);
+//		return service.registerCustomer(customer);
+		return ResponseEntity.status(HttpStatus.CREATED).body(service.registerCustomer(customer));
+		
 	}
 
 	@GetMapping
-	public List<Customer> getAllCustomers() {
+	public ResponseEntity<List<Customer>> getAllCustomers() {
 		
-		return service.getAllCustomers();
+//		return service.getAllCustomers();
+		return ResponseEntity.status(HttpStatus.FOUND).body(service.getAllCustomers());
 	}
 	
 	@GetMapping("/{id}")
-	public Customer getCustomerById(@PathVariable int id) {
+	public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
 		
-		return service.getCustomerById(id);
+//		return service.getCustomerById(id);
+		return ResponseEntity.status(HttpStatus.FOUND).body(service.getCustomerById(id));
 	}
 	
 	
 	@PutMapping("/{id}")
-	public Customer updateCustomer(@PathVariable int id,@RequestBody Customer customer) {
-		return service.updateCustomer(id, customer);
+	public ResponseEntity<Customer> updateCustomer(@PathVariable int id,@RequestBody Customer customer) {
+//		return service.updateCustomer(id, customer);
+		return ResponseEntity.ok(service.updateCustomer(id, customer));
 	}
 
 	
 	@DeleteMapping("/{id}")
-	public Customer deleteCustomer(@PathVariable int id) {
-		return service.deleteCustomer(id);
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable int id) {
+//		return service.deleteCustomer(id);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.deleteCustomer(id));
 	}
 
 }
